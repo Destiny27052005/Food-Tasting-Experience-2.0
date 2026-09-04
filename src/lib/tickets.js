@@ -1,11 +1,11 @@
 export const EVENT = Object.freeze({
     name: "CookWithTife Food Tasting Experience",
     edition: "2.0",
-    tagline: "Six courses. One unforgettable table.",
+    tagline: "An intimate dining experience. Good food, good people and good energy ",
     // Replace with final details when confirmed
-    date: "Saturday, 14 November 2026",
+    date: "Saturday, 12 December 2026",
     time: "4:00 PM WAT",
-    venue: "The Amber Hall, Victoria Island, Lagos",
+    venue: "Mainland, Lagos",
 });
 
 export const TICKET_TIERS = [
