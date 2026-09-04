@@ -1,53 +1,7 @@
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-food.jpg";
 import { Button } from "@/components/ui/button";
-
-const EVENT = {
-  edition: "04",
-  name: "The Artisan Tasting Table",
-  tagline: "An intimate five-course journey through modern West African fusion cuisine.",
-  date: "Saturday, November 14, 2026",
-  time: "5:00 PM – 9:00 PM",
-  venue: "The Glasshouse, Victoria Island, Lagos",
-};
-
-const TICKET_TIERS = [
-  {
-    id: "standard",
-    name: "Tasting Pass",
-    description: "The full multi-course dining experience.",
-    priceNaira: 45000,
-    perks: [
-      "5-course curated tasting menu",
-      "Welcome mocktail on arrival",
-      "Event program & recipe cards",
-    ],
-  },
-  {
-    id: "premium",
-    name: "Pairing Experience",
-    description: "Elevated dining with sommelier pairings.",
-    priceNaira: 75000,
-    perks: [
-      "5-course curated tasting menu",
-      "Curated wine & cocktail pairings",
-      "Priority seating near the live kitchen",
-      "Signed recipe booklet by Chef Tife",
-    ],
-  },
-  {
-    id: "chef-table",
-    name: "Chef's Table VIP",
-    description: "Exclusive front-row kitchen counter seats.",
-    priceNaira: 120000,
-    perks: [
-      "All Pairing Experience benefits",
-      "Interactive pre-dinner canapés with Chef Tife",
-      "Take-home bespoke spice kit & gift bag",
-      "Reserved prime counter seating",
-    ],
-  },
-];
+import { EVENT, TICKET_TIERS } from "../lib/tickets";
 
 export default function Index() {
   return (
