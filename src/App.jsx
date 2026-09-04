@@ -1,11 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
+import Index from './pages/Index'
 function App() {
 
   return (
-    <div className="App">
-      <h1 className="text-5xl">Hello, Vite!</h1>
+    <div className="">
       <Routes>
-        <Route path="/" element={<h1>Home</h1>} />
+        <Route path="/" element={<Index />} />
       </Routes>
     </div>
   )
