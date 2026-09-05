@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { supabase } from "@/integration/supabase"; // Adjust this path to your supabase client
+import { supabase } from "@/lib/supabase"; // Adjust this path to your supabase client
 
 export default function AuthPage() {
   const navigate = useNavigate();
