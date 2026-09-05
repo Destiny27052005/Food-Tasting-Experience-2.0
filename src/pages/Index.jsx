@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
+
 import heroImage from "@/assets/hero-food.jpg";
 import { Button } from "@/components/ui/button";
-import { EVENT, TICKET_TIERS } from "../lib/tickets";
+import { EVENT, TICKET } from "@/lib/tickets";
 
 export default function Index() {
   return (
@@ -51,37 +52,28 @@ export default function Index() {
       </section>
 
       <section id="tickets" className="border-t bg-card/60 py-16">
-        <div className="mx-auto max-w-6xl px-6">
-          <h2 className="font-serif text-3xl">Choose your seat</h2>
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <h2 className="font-serif text-3xl">One ticket. The whole table.</h2>
           <p className="mt-2 text-muted-foreground">
-            Every ticket includes the full tasting menu. Pick the experience level you want.
+            Every seat includes the full tasting menu — just tell us how you like to eat.
           </p>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {TICKET_TIERS.map((tier) => (
-              <div
-                key={tier.id}
-                className="flex flex-col rounded-2xl border bg-background p-6 shadow-sm"
-              >
-                <h3 className="font-serif text-2xl">{tier.name}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{tier.description}</p>
-                <p className="mt-4 text-3xl font-semibold text-primary">
-                  ₦{tier.priceNaira.toLocaleString("en-NG")}
-                </p>
-                <ul className="mt-5 flex-1 space-y-2 text-sm">
-                  {tier.perks.map((perk) => (
-                    <li key={perk} className="flex gap-2">
-                      <span className="text-primary">•</span>
-                      <span>{perk}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Button asChild variant="secondary" className="mt-6">
-                  <Link to={`/checkout?tier=${tier.id}`}>
-                    Select {tier.name}
-                  </Link>
-                </Button>
-              </div>
-            ))}
+          <div className="mx-auto mt-10 max-w-md rounded-2xl border bg-background p-8 shadow-sm">
+            <h3 className="font-serif text-2xl">{TICKET.name}</h3>
+            <p className="mt-1 text-sm text-muted-foreground">{TICKET.description}</p>
+            <p className="mt-4 text-4xl font-semibold text-primary">
+              ₦{TICKET.priceNaira.toLocaleString("en-NG")}
+            </p>
+            <ul className="mt-6 space-y-2 text-left text-sm">
+              {TICKET.perks.map((perk) => (
+                <li key={perk} className="flex gap-2">
+                  <span className="text-primary">•</span>
+                  <span>{perk}</span>
+                </li>
+              ))}
+            </ul>
+            <Button asChild className="mt-8 w-full">
+              <Link to="/checkout">Get your ticket</Link>
+            </Button>
           </div>
         </div>
       </section>

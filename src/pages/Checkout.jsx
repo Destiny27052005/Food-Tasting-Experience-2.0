@@ -1,24 +1,20 @@
 import { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { EVENT, FOOD_PREFERENCES, TICKET_TIERS } from "@/lib/tickets";
+import { startCheckout } from "@/lib/checkout.functions";
+import { EVENT, FOOD_PREFERENCES, TICKET } from "@/lib/tickets";
 
-export default function Checkout({ startCheckout }) {
-  const [searchParams] = useSearchParams();
-  const initialTier = searchParams.get("tier");
-
-  const [ticketType, setTicketType] = useState(initialTier ?? "regular");
+export default function Checkout() {
   const [quantity, setQuantity] = useState(1);
   const [foodPreference, setFoodPreference] = useState(FOOD_PREFERENCES[0]);
   const [loading, setLoading] = useState(false);
 
-  const selected = TICKET_TIERS.find((t) => t.id === ticketType) ?? TICKET_TIERS[0];
-  const total = selected.priceNaira * quantity;
+  const total = TICKET.priceNaira * quantity;
 
   async function onSubmit(event) {
     event.preventDefault();
@@ -26,21 +22,21 @@ export default function Checkout({ startCheckout }) {
     setLoading(true);
 
     try {
-      // If using an API route directly:
-      // const res = await fetch("/api/checkout", { method: "POST", body: JSON.stringify(...) })
+      // Call startCheckout directly (plain async function)
       const result = await startCheckout({
-        fullName: String(form.get("fullName") ?? ""),
-        email: String(form.get("email") ?? ""),
-        phone: String(form.get("phone") ?? ""),
-        company: String(form.get("company") ?? ""),
-        ticketType,
-        quantity,
-        foodPreference,
-        dietaryNotes: String(form.get("dietaryNotes") ?? ""),
+        data: {
+          fullName: String(form.get("fullName") ?? ""),
+          email: String(form.get("email") ?? ""),
+          phone: String(form.get("phone") ?? ""),
+          company: String(form.get("company") ?? ""),
+          quantity,
+          foodPreference,
+          dietaryNotes: String(form.get("dietaryNotes") ?? ""),
+        },
       });
 
-      if (!result.ok) {
-        toast.error(result.error || "Failed to initialize payment");
+      if (!result?.ok) {
+        toast.error(result?.error || "Payment initialization failed.");
         return;
       }
 
@@ -88,22 +84,6 @@ export default function Checkout({ startCheckout }) {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="ticketType">Ticket type</Label>
-            <select
-              id="ticketType"
-              value={ticketType}
-              onChange={(e) => setTicketType(e.target.value)}
-              className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            >
-              {TICKET_TIERS.map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.name} — ₦{t.priceNaira.toLocaleString("en-NG")}
-                </option>
-              ))}
-            </select>
-          </div>
-
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="quantity">Number of tickets</Label>
@@ -113,7 +93,9 @@ export default function Checkout({ startCheckout }) {
                 min={1}
                 max={10}
                 value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, Math.min(10, Number(e.target.value) || 1)))}
+                onChange={(e) =>
+                  setQuantity(Math.max(1, Math.min(10, Number(e.target.value) || 1)))
+                }
               />
             </div>
             <div className="space-y-2">
@@ -140,7 +122,9 @@ export default function Checkout({ startCheckout }) {
 
           <div className="flex items-center justify-between border-t pt-5">
             <div>
-              <p className="text-sm text-muted-foreground">Total</p>
+              <p className="text-sm text-muted-foreground">
+                {quantity} × ₦{TICKET.priceNaira.toLocaleString("en-NG")}
+              </p>
               <p className="font-serif text-2xl">₦{total.toLocaleString("en-NG")}</p>
             </div>
             <Button type="submit" size="lg" disabled={loading}>
