@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -16,13 +16,24 @@ export default function Checkout() {
 
   const total = TICKET.priceNaira * quantity;
 
+  useEffect(() => {
+    document.title = "Secure Your Seat — CookWithTife Food Tasting Experience 2.0";
+
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute(
+        "content",
+        "Enter your details, tell us your food preference, and pay securely to reserve your CookWithTife tasting seat. Tickets ₦40,000."
+      );
+    }
+  }, []);
+
   async function onSubmit(event) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     setLoading(true);
 
     try {
-      // Call startCheckout directly (plain async function)
       const result = await startCheckout({
         data: {
           fullName: String(form.get("fullName") ?? ""),
@@ -59,7 +70,7 @@ export default function Checkout() {
       </header>
 
       <main className="mx-auto max-w-3xl px-6 pb-20">
-        <h1 className="font-serif text-3xl md:text-4xl">Reserve your seat</h1>
+        <h1 className="font-serif text-3xl md:text-4xl">Secure my seat</h1>
         <p className="mt-2 text-muted-foreground">
           Tell us who's coming and how you like to eat. Payment is handled securely.
         </p>
@@ -116,8 +127,16 @@ export default function Checkout() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="dietaryNotes">Dietary notes & allergies (optional)</Label>
-            <Textarea id="dietaryNotes" name="dietaryNotes" maxLength={500} rows={3} />
+            <Label htmlFor="dietaryNotes">
+              Do you eat catfish? Any food allergies? (optional)
+            </Label>
+            <Textarea
+              id="dietaryNotes"
+              name="dietaryNotes"
+              maxLength={500}
+              rows={3}
+              placeholder="e.g. No catfish, allergic to peanuts, lactose intolerant..."
+            />
           </div>
 
           <div className="flex items-center justify-between border-t pt-5">
