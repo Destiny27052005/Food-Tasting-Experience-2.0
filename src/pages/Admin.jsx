@@ -8,38 +8,73 @@ import { formatNaira } from "@/lib/tickets";
 
 export default function AdminPage() {
   const navigate = useNavigate();
-  const [sessionReady, setSessionReady] = useState(false);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [hasAccess, setHasAccess] = useState(true);
 
   useEffect(() => {
-    async function checkAuthAndLoad() {
-      const { data } = await supabase.auth.getSession();
-      if (!data.session) {
-        navigate("/auth");
+    document.title = "Organiser dashboard — CookWithTife Tasting Experience";
+
+    async function loadAdminData() {
+      // 1. Verify active Supabase session
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session) {
+        navigate("/auth", { replace: true });
         return;
       }
-      setSessionReady(true);
 
-      const { data: fetchedOrders, error } = await supabase
+      // 2. Fetch orders directly using authenticated client
+      const { data, error } = await supabase
         .from("orders")
         .select("*")
         .order("created_at", { ascending: false });
 
       if (error) {
-        console.error(error);
-        toast.error("Could not load orders. Please sign in again.");
+        console.error("Failed to load orders:", error);
+        // If RLS denies access, flag as unauthorized
+        if (error.code === "42501" || error.message.includes("permission")) {
+          setHasAccess(false);
+        } else {
+          toast.error("Could not load orders. Please try again.");
+        }
       } else {
-        setOrders(fetchedOrders || []);
+        setOrders(data || []);
       }
+
       setLoading(false);
     }
 
-    checkAuthAndLoad();
+    loadAdminData();
   }, [navigate]);
 
-  if (!sessionReady || loading) {
-    return <div className="p-10 text-muted-foreground">Loading dashboard…</div>;
+  async function handleSignOut() {
+    await supabase.auth.signOut();
+    navigate("/auth");
+  }
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center p-10 text-muted-foreground">
+        Loading dashboard…
+      </div>
+    );
+  }
+
+  if (!hasAccess) {
+    return (
+      <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center p-10 text-center">
+        <h1 className="font-serif text-2xl">No admin access</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          This account does not have permission to view attendee orders.
+        </p>
+        <Button className="mt-6" variant="secondary" onClick={handleSignOut}>
+          Sign out
+        </Button>
+      </div>
+    );
   }
 
   const paid = orders.filter((o) => o.status === "paid");
@@ -108,13 +143,7 @@ export default function AdminPage() {
           <Button variant="secondary" onClick={exportCsv}>
             Export CSV
           </Button>
-          <Button
-            variant="ghost"
-            onClick={async () => {
-              await supabase.auth.signOut();
-              navigate("/auth");
-            }}
-          >
+          <Button variant="ghost" onClick={handleSignOut}>
             Sign out
           </Button>
         </div>
