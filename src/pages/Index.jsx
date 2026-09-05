@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import heroImage from "@/assets/hero-food.jpg";
+// import heroImage from "@/assets/hero-food.jpg";
+import flyerImage from "@/assets/event-flyer.jpg";
 import { Button } from "@/components/ui/button";
 import { EVENT, TICKET } from "@/lib/tickets";
 
@@ -47,6 +48,10 @@ export default function Index() {
           </div>
           <dl className="mt-8 grid gap-3 text-sm">
             <div className="flex gap-3">
+              <dt className="w-20 text-muted-foreground">Theme</dt>
+              <dd className="font-medium">{EVENT.theme}</dd>
+            </div>
+            <div className="flex gap-3">
               <dt className="w-20 text-muted-foreground">Date</dt>
               <dd className="font-medium">{EVENT.date}</dd>
             </div>
@@ -71,8 +76,8 @@ export default function Index() {
         </div>
         <div className="overflow-hidden rounded-2xl border shadow-sm">
           <img
-            src={heroImage}
-            alt="Plated tasting course from the CookWithTife Food Tasting Experience"
+            src={flyerImage}
+            alt="CookWithTife Food Tasting Experience 2.0 Official Flyer"
             className="h-full w-full object-cover"
             loading="eager"
           />
@@ -105,6 +110,20 @@ export default function Index() {
           </ul>
         </div>
       </section>
+
+      {/* <section className="py-16">
+        <div className="mx-auto max-w-xl px-6 text-center">
+          <p className="text-xs uppercase tracking-[0.2em] text-primary">The Official Poster</p>
+          <h2 className="mt-2 font-serif text-3xl">The Table is Ready</h2>
+          <div className="mt-8 overflow-hidden rounded-2xl border bg-card shadow-md">
+            <img
+              src={flyerImage}
+              alt="CookWithTife 2.0 Flyer"
+              className="w-full object-contain"
+            />
+          </div>
+        </div>
+      </section> */}
 
       <section id="tickets" className="py-16">
         <div className="mx-auto max-w-3xl px-6 text-center">

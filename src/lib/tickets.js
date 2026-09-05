@@ -4,6 +4,7 @@ export const EVENT = Object.freeze({
   tagline: "Come for the experience. Stay for the food.",
   date: "Saturday, December 12, 2026",
   time: "2PM — 5PM",
+  theme: "Burst of Colours",
   venue: "Mainland, Lagos",
 });
 
