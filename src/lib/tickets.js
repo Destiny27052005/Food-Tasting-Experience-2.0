@@ -1,20 +1,29 @@
 export const EVENT = Object.freeze({
   name: "CookWithTife Food Tasting Experience",
   edition: "2.0",
-  tagline: "An intimate dining experience. Good food, good people and good energy",
-  // Replace with final details when confirmed
-  date: "Saturday, 12 December 2026",
-  time: "4:00 PM WAT",
+  tagline: "Come for the experience. Stay for the food.",
+  date: "Saturday, December 12, 2026",
+  time: "2PM — 5PM",
   venue: "Mainland, Lagos",
 });
 
 export const TICKET = Object.freeze({
   id: "tasting-ticket",
-  name: "Tasting Ticket",
-  priceNaira: 30000,
-  description: "Your seat at the tasting table.",
-  perks: ["Full tasting menu", "Welcome drink", "Event keepsake"],
+  name: "Food Tasting 2.0 Ticket",
+  priceNaira: 40000,
+  description: "One afternoon you’ll actually remember.",
+  perks: [
+    "A warm, cozy lounge to unwind, interact and meet good people",
+    "Games and a puzzle stand — come ready",
+    "A proper tasting spread",
+    "Drinks available",
+    "A hosted evening with the right energy from start to finish",
+    "30 people. One unforgettable afternoon.",
+  ],
 });
+
+// Included as an array for backward-compatibility with any tier selectors
+export const TICKET_TIERS = [TICKET];
 
 export const FOOD_PREFERENCES = Object.freeze([
   "Regular",
