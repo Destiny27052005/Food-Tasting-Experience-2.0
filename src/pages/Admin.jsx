@@ -96,7 +96,7 @@ export default function AdminPage() {
       "ticket_type",
       "quantity",
       "amount",
-      "food_preference",
+      // "food_preference",
       "dietary_notes",
       "status",
       "created_at",
@@ -113,7 +113,7 @@ export default function AdminPage() {
         o.ticket_type,
         o.quantity,
         (o.amount_kobo ?? 0) / 100,
-        o.food_preference,
+        // o.food_preference,
         (o.dietary_notes ?? "").replace(/\n/g, " "),
         o.status,
         o.created_at,
@@ -187,7 +187,7 @@ export default function AdminPage() {
                 <th className="p-3">Ticket</th>
                 <th className="p-3">Qty</th>
                 <th className="p-3">Amount</th>
-                <th className="p-3">Food</th>
+                {/* <th className="p-3">Food</th> */}
                 <th className="p-3">Notes</th>
                 <th className="p-3">Status</th>
               </tr>
@@ -202,7 +202,7 @@ export default function AdminPage() {
                   <td className="p-3">{o.ticket_type}</td>
                   <td className="p-3">{o.quantity}</td>
                   <td className="p-3">{formatNaira(o.amount_kobo ?? 0)}</td>
-                  <td className="p-3">{o.food_preference}</td>
+                  {/* <td className="p-3">{o.food_preference}</td> */}
                   <td className="p-3 max-w-[16rem] truncate">
                     {o.dietary_notes || "—"}
                   </td>

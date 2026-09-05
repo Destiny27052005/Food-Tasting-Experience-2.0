@@ -15,7 +15,7 @@ export const TICKET = Object.freeze({
   description: "One afternoon you’ll actually remember.",
   perks: [
     "A warm, cozy lounge to unwind, interact and meet good people",
-    "Games and a puzzle stand — come ready",
+    "Games and a puzzle stand come ready",
     "A proper tasting spread",
     "Drinks available",
     "A hosted evening with the right energy from start to finish",
@@ -26,13 +26,13 @@ export const TICKET = Object.freeze({
 // Included as an array for backward-compatibility with any tier selectors
 export const TICKET_TIERS = [TICKET];
 
-export const FOOD_PREFERENCES = Object.freeze([
-  "Regular",
-  "Vegetarian",
-  "Vegan",
-  "Pescatarian",
-  "Halal",
-]);
+// export const FOOD_PREFERENCES = Object.freeze([
+//   "Regular",
+//   "Vegetarian",
+//   "Vegan",
+//   "Pescatarian",
+//   "Halal",
+// ]);
 
 export function formatNaira(kobo) {
   return `₦${(kobo / 100).toLocaleString("en-NG")}`;

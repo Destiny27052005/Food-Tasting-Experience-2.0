@@ -96,7 +96,7 @@ export default function Index() {
           <ul className="mt-10 grid gap-4 sm:grid-cols-2">
             {[
               "A warm, cozy lounge built for you to unwind, interact and meet good people.",
-              "Games and a puzzle stand — come ready.",
+              "Games and a puzzle stand, come ready.",
               "Good food. A proper tasting spread.",
               "Drinks available.",
               "A hosted evening with the right energy from start to finish.",
@@ -125,7 +125,7 @@ export default function Index() {
         </div>
       </section> */}
 
-      <section id="tickets" className="py-16">
+      {/* <section id="tickets" className="py-16">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <h2 className="font-serif text-3xl">One ticket. The whole table.</h2>
           <p className="mt-2 text-muted-foreground">
@@ -150,7 +150,7 @@ export default function Index() {
             </Button>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section className="border-t bg-card/60 py-16">
         <div className="mx-auto max-w-2xl px-6 text-center">

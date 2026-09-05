@@ -7,11 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { startCheckout } from "@/lib/checkout.functions";
-import { EVENT, FOOD_PREFERENCES, TICKET } from "@/lib/tickets";
+import { EVENT,  TICKET } from "@/lib/tickets";
 
 export default function Checkout() {
   const [quantity, setQuantity] = useState(1);
-  const [foodPreference, setFoodPreference] = useState(FOOD_PREFERENCES[0]);
+  // const [foodPreference, setFoodPreference] = useState(FOOD_PREFERENCES[0]);
   const [loading, setLoading] = useState(false);
 
   const total = TICKET.priceNaira * quantity;
@@ -41,7 +41,7 @@ export default function Checkout() {
           phone: String(form.get("phone") ?? ""),
           company: String(form.get("company") ?? ""),
           quantity,
-          foodPreference,
+          // foodPreference,
           dietaryNotes: String(form.get("dietaryNotes") ?? ""),
         },
       });
@@ -109,7 +109,7 @@ export default function Checkout() {
                 }
               />
             </div>
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <Label htmlFor="foodPreference">Food preference</Label>
               <select
                 id="foodPreference"
@@ -123,12 +123,12 @@ export default function Checkout() {
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="dietaryNotes">
-              Do you eat catfish? Any food allergies? (optional)
+              Do you eat catfish? Any food allergies?
             </Label>
             <Textarea
               id="dietaryNotes"
