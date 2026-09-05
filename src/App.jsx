@@ -5,6 +5,7 @@ import Index from "./pages/Index";
 import Checkout from "./pages/Checkout";
 import AuthPage from "./pages/Auth";
 import Admin from "./pages/Admin";
+import NotFoundComponent from "./components/NotFound";
 import TicketConfirmation from "./pages/TicketConfirmation";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -25,6 +26,7 @@ function App() {
           }
         />
         <Route path="/ticket/:reference" element={<TicketConfirmation />} />
+        <Route path="*" element={<NotFoundComponent />} />
       </Routes>
     </div>
   );
