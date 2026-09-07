@@ -7,11 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { startCheckout } from "@/lib/checkout.functions";
-import { EVENT,  TICKET } from "@/lib/tickets";
+import { EVENT, TICKET } from "@/lib/tickets";
 
 export default function Checkout() {
   const [quantity, setQuantity] = useState(1);
-  // const [foodPreference, setFoodPreference] = useState(FOOD_PREFERENCES[0]);
   const [loading, setLoading] = useState(false);
 
   const total = TICKET.priceNaira * quantity;
@@ -23,7 +22,7 @@ export default function Checkout() {
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
-        "Enter your details, tell us your food preference, and pay securely to reserve your CookWithTife tasting seat. Tickets ₦40,000."
+        "Enter your details and pay securely to reserve your CookWithTife tasting seat. Tickets ₦40,000."
       );
     }
   }, []);
@@ -41,7 +40,7 @@ export default function Checkout() {
           phone: String(form.get("phone") ?? ""),
           company: String(form.get("company") ?? ""),
           quantity,
-          // foodPreference,
+          foodPreference: "Regular",
           dietaryNotes: String(form.get("dietaryNotes") ?? ""),
         },
       });
@@ -72,7 +71,7 @@ export default function Checkout() {
       <main className="mx-auto max-w-3xl px-6 pb-20">
         <h1 className="font-serif text-3xl md:text-4xl">Secure my seat</h1>
         <p className="mt-2 text-muted-foreground">
-          Tell us who's coming and how you like to eat. Payment is handled securely.
+          Tell us who's coming and dietary notes. Payment is handled securely.
         </p>
 
         <form onSubmit={onSubmit} className="mt-8 space-y-6 rounded-2xl border bg-card p-6">
@@ -95,35 +94,19 @@ export default function Checkout() {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="quantity">Number of tickets</Label>
-              <Input
-                id="quantity"
-                type="number"
-                min={1}
-                max={10}
-                value={quantity}
-                onChange={(e) =>
-                  setQuantity(Math.max(1, Math.min(10, Number(e.target.value) || 1)))
-                }
-              />
-            </div>
-            {/* <div className="space-y-2">
-              <Label htmlFor="foodPreference">Food preference</Label>
-              <select
-                id="foodPreference"
-                value={foodPreference}
-                onChange={(e) => setFoodPreference(e.target.value)}
-                className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-              >
-                {FOOD_PREFERENCES.map((p) => (
-                  <option key={p} value={p}>
-                    {p}
-                  </option>
-                ))}
-              </select>
-            </div> */}
+          <div className="space-y-2">
+            <Label htmlFor="quantity">Number of tickets</Label>
+            <Input
+              id="quantity"
+              type="number"
+              min={1}
+              max={10}
+              value={quantity}
+              onChange={(e) =>
+                setQuantity(Math.max(1, Math.min(10, Number(e.target.value) || 1)))
+              }
+              className="sm:max-w-xs"
+            />
           </div>
 
           <div className="space-y-2">

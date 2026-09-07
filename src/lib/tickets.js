@@ -26,13 +26,6 @@ export const TICKET = Object.freeze({
 // Included as an array for backward-compatibility with any tier selectors
 export const TICKET_TIERS = [TICKET];
 
-// export const FOOD_PREFERENCES = Object.freeze([
-//   "Regular",
-//   "Vegetarian",
-//   "Vegan",
-//   "Pescatarian",
-//   "Halal",
-// ]);
 
 export function formatNaira(kobo) {
   return `₦${(kobo / 100).toLocaleString("en-NG")}`;
