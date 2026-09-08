@@ -24,7 +24,7 @@ serve(async (req) => {
     const paystackSecret = Deno.env.get("PAYSTACK_SECRET_KEY");
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const siteUrl = Deno.env.get("SITE_URL") || "http://localhost:5173";
+    const siteUrl = Deno.env.get("SITE_URL") || "https://food-tasting-experience-2-0.vercel.app";
 
     if (!paystackSecret) {
       return new Response(
@@ -52,7 +52,7 @@ serve(async (req) => {
       quantity: data.quantity,
       unit_amount_kobo: unitKobo,
       amount_kobo: totalKobo,
-      food_preference: data.foodPreference,
+      food_preference: data.foodPreference || "Regular",
       dietary_notes: data.dietaryNotes || null,
       status: "pending",
     });
@@ -82,7 +82,7 @@ serve(async (req) => {
           phone: data.phone,
           ticket_code: ticketCode,
           quantity: data.quantity,
-          food_preference: data.foodPreference,
+          food_preference: data.foodPreference || "Regular",
         },
       }),
     });
