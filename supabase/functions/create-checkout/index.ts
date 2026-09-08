@@ -35,7 +35,7 @@ serve(async (req) => {
 
     const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
-    const unitKobo = 30000 * 100; // ₦30,000
+    const unitKobo = 40000 * 100; // ₦40,000
     const totalKobo = unitKobo * data.quantity;
     const reference = makeCode("CWT");
     const ticketCode = makeCode("TKT");
