@@ -6,6 +6,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const MAX_SEATS = 30;
+
 function makeCode(prefix: string) {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let out = "";
@@ -21,6 +23,8 @@ serve(async (req) => {
 
   try {
     const data = await req.json();
+    const requestedQty = Number(data.quantity) || 1;
+
     const paystackSecret = Deno.env.get("PAYSTACK_SECRET_KEY");
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -35,12 +39,45 @@ serve(async (req) => {
 
     const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
+    // 1. Verify seat availability against already paid tickets
+    const { data: paidOrders, error: countError } = await supabaseAdmin
+      .from("orders")
+      .select("quantity")
+      .eq("status", "paid");
+
+    if (countError) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "Failed to verify seat availability." }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const ticketsSold = (paidOrders || []).reduce((sum, order) => sum + (order.quantity || 0), 0);
+    const ticketsRemaining = MAX_SEATS - ticketsSold;
+
+    if (ticketsRemaining <= 0) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "Sold out! All 30 seats have been booked." }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    if (requestedQty > ticketsRemaining) {
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          error: `Only ${ticketsRemaining} seat${ticketsRemaining > 1 ? "s" : ""} left. Please reduce your quantity.`,
+        }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const unitKobo = 40000 * 100; // ₦40,000
-    const totalKobo = unitKobo * data.quantity;
+    const totalKobo = unitKobo * requestedQty;
     const reference = makeCode("CWT");
     const ticketCode = makeCode("TKT");
 
-    // Insert order record
+    // 2. Insert order record
     const { error: insertError } = await supabaseAdmin.from("orders").insert({
       reference,
       ticket_code: ticketCode,
@@ -49,7 +86,7 @@ serve(async (req) => {
       phone: data.phone,
       company: data.company || null,
       ticket_type: "Tasting Ticket",
-      quantity: data.quantity,
+      quantity: requestedQty,
       unit_amount_kobo: unitKobo,
       amount_kobo: totalKobo,
       food_preference: data.foodPreference || "Regular",
@@ -64,7 +101,7 @@ serve(async (req) => {
       );
     }
 
-    // Initialize Paystack
+    // 3. Initialize Paystack
     const paystackRes = await fetch("https://api.paystack.co/transaction/initialize", {
       method: "POST",
       headers: {
@@ -81,7 +118,7 @@ serve(async (req) => {
           full_name: data.fullName,
           phone: data.phone,
           ticket_code: ticketCode,
-          quantity: data.quantity,
+          quantity: requestedQty,
           food_preference: data.foodPreference || "Regular",
         },
       }),
@@ -104,7 +141,7 @@ serve(async (req) => {
       }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
-  } catch (err) {
+  } catch (err: any) {
     return new Response(
       JSON.stringify({ ok: false, error: err.message }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
