@@ -15,11 +15,11 @@ export const TICKET = Object.freeze({
   description: "One afternoon you’ll actually remember.",
   perks: [
     "A warm, cozy lounge to unwind, interact and meet good people",
-    "Games and a puzzle stand come ready",
+    "Games and a fun activities",
     "A proper tasting spread",
     "Drinks available",
     "A hosted evening with the right energy from start to finish",
-    "30 people. One unforgettable afternoon.",
+    "25 people. One unforgettable afternoon.",
   ],
 });
 
