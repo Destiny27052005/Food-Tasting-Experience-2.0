@@ -6,7 +6,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const MAX_SEATS = 30;
+// Change from 30 to 25
+const MAX_SEATS = 25;
 
 function makeCode(prefix: string) {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -57,7 +58,7 @@ serve(async (req) => {
 
     if (ticketsRemaining <= 0) {
       return new Response(
-        JSON.stringify({ ok: false, error: "Sold out! All 30 seats have been booked." }),
+        JSON.stringify({ ok: false, error: "Sold out! All 25 seats have been booked." }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }

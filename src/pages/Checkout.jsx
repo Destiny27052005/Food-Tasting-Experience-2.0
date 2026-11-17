@@ -10,7 +10,7 @@ import { startCheckout } from "@/lib/checkout.functions";
 import { supabase } from "@/lib/supabase";
 import { EVENT, TICKET } from "@/lib/tickets";
 
-const MAX_SEATS = 30;
+const MAX_SEATS = 25; // Updated to match the new maximum seat count
 
 export default function Checkout() {
   const [quantity, setQuantity] = useState(1);
@@ -133,10 +133,10 @@ export default function Checkout() {
           {seatsRemaining !== null && (
             <span
               className={`mt-3 sm:mt-0 inline-flex items-center w-fit text-xs font-semibold px-3 py-1 rounded-full border ${isSoldOut
-                  ? "bg-destructive/10 text-destructive border-destructive/20"
-                  : seatsRemaining <= 5
-                    ? "bg-amber-500/10 text-amber-600 border-amber-500/20"
-                    : "bg-primary/10 text-primary border-primary/20"
+                ? "bg-destructive/10 text-destructive border-destructive/20"
+                : seatsRemaining <= 5
+                  ? "bg-amber-500/10 text-amber-600 border-amber-500/20"
+                  : "bg-primary/10 text-primary border-primary/20"
                 }`}
             >
               {isSoldOut
@@ -156,7 +156,7 @@ export default function Checkout() {
           <div className="mt-8 rounded-2xl border bg-card p-8 text-center space-y-4 shadow-sm">
             <h2 className="text-2xl font-serif">Capacity Reached</h2>
             <p className="text-muted-foreground max-w-md mx-auto">
-              All 30 seats for CookWithTife Food Tasting Experience 2.0 have been booked.
+              All 25 seats for CookWithTife Food Tasting Experience 2.0 have been booked.
               Follow our social channels for announcements regarding Edition 3.0.
             </p>
             <Button asChild variant="outline" className="mt-2">
